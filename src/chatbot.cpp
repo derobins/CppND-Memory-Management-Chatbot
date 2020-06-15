@@ -14,7 +14,7 @@ ChatBot::ChatBot()
     std::cout << "ChatBot Constructor (parameterless)" << std::endl;
 
     // invalidate data handles
-    _image = nullptr;
+    _image = NULL;
     _chatLogic = nullptr;
     _rootNode = nullptr;
 }
@@ -74,7 +74,7 @@ ChatBot::ChatBot(ChatBot&& orig)
     _chatLogic = orig._chatLogic;
 
     // Have to invalidate the owned resource on the original
-    orig._image = nullptr;
+    orig._image = NULL;
 }
 
 // Copy operator
@@ -95,6 +95,8 @@ ChatBot& ChatBot::operator=(const ChatBot& orig)
         _rootNode = orig._rootNode;
         _chatLogic = orig._chatLogic;
     }
+
+    return *this;
 }
 
 // Move operator
@@ -116,8 +118,10 @@ ChatBot& ChatBot::operator=(ChatBot&& orig)
         _chatLogic = orig._chatLogic;
 
         // Have to invalidate the owned resource on the original
-        orig._image = nullptr;
+        orig._image = NULL;
     }
+
+    return *this;
 }
 
 ////
