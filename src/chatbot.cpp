@@ -11,7 +11,7 @@
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
-    //std::cout << "ChatBot Constructor (parameterless)" << std::endl;
+    std::cout << "ChatBot Constructor (parameterless)" << std::endl;
 
     // invalidate data handles
     _image = nullptr;
@@ -22,7 +22,7 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    //std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -34,7 +34,7 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    //std::cout << "ChatBot Destructor" << std::endl;
+    std::cout << "ChatBot Destructor" << std::endl;
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
@@ -46,6 +46,79 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+// Copy constructor
+ChatBot::ChatBot(const ChatBot& orig)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    // Copy the owned image via the wxBitmap copy constructor
+    _image = new wxBitmap(*(orig._image));
+
+    // Copy non-owned pointers
+    _currentNode = orig._currentNode;
+    _rootNode = orig._rootNode;
+    _chatLogic = orig._chatLogic;
+}
+
+// Move constructor
+ChatBot::ChatBot(ChatBot&& orig)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    // Acquire the owned image via the wxBitmap copy constructor
+    _image = orig._image;
+
+    // Copy non-owned pointers
+    _currentNode = orig._currentNode;
+    _rootNode = orig._rootNode;
+    _chatLogic = orig._chatLogic;
+
+    // Have to invalidate the owned resource on the original
+    orig._image = nullptr;
+}
+
+// Copy operator
+ChatBot& ChatBot::operator=(const ChatBot& orig)
+{
+    std::cout << "ChatBot Copy Operator" << std::endl;
+
+    if (&orig != this) {
+        // Delete the image if it already exists
+        if(_image != NULL)
+            delete _image;
+
+        // Copy the owned image via the wxBitmap copy constructor
+        _image = new wxBitmap(*(orig._image));
+
+        // Copy non-owned pointers
+        _currentNode = orig._currentNode;
+        _rootNode = orig._rootNode;
+        _chatLogic = orig._chatLogic;
+    }
+}
+
+// Move operator
+ChatBot& ChatBot::operator=(ChatBot&& orig)
+{
+    std::cout << "ChatBot Move Operator" << std::endl;
+
+    if (&orig != this) {
+        // Delete the image if it already exists
+        if(_image != NULL)
+            delete _image;
+
+        // Acquire the owned image
+        _image = orig._image;
+
+        // Copy non-owned pointers
+        _currentNode = orig._currentNode;
+        _rootNode = orig._rootNode;
+        _chatLogic = orig._chatLogic;
+
+        // Have to invalidate the owned resource on the original
+        orig._image = nullptr;
+    }
+}
 
 ////
 //// EOF STUDENT CODE
