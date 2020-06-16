@@ -58,6 +58,9 @@ ChatBot::ChatBot(const ChatBot& orig)
     _currentNode = orig._currentNode;
     _rootNode = orig._rootNode;
     _chatLogic = orig._chatLogic;
+
+    // Update the ChatLogic object's reference to the ChatBot
+    _chatLogic->SetChatbotHandle(this);
 }
 
 // Move constructor
@@ -73,8 +76,14 @@ ChatBot::ChatBot(ChatBot&& orig)
     _rootNode = orig._rootNode;
     _chatLogic = orig._chatLogic;
 
-    // Have to invalidate the owned resource on the original
+    // Update the ChatLogic object's reference to the ChatBot
+    _chatLogic->SetChatbotHandle(this);
+
+    // Have to invalidate the originals
     orig._image = NULL;
+    orig._currentNode = NULL;
+    orig._rootNode = NULL;
+    orig._chatLogic = NULL;
 }
 
 // Copy operator
@@ -94,6 +103,9 @@ ChatBot& ChatBot::operator=(const ChatBot& orig)
         _currentNode = orig._currentNode;
         _rootNode = orig._rootNode;
         _chatLogic = orig._chatLogic;
+
+        // Update the ChatLogic object's reference to the ChatBot
+        _chatLogic->SetChatbotHandle(this);
     }
 
     return *this;
@@ -117,8 +129,14 @@ ChatBot& ChatBot::operator=(ChatBot&& orig)
         _rootNode = orig._rootNode;
         _chatLogic = orig._chatLogic;
 
-        // Have to invalidate the owned resource on the original
+        // Update the ChatLogic object's reference to the ChatBot
+        _chatLogic->SetChatbotHandle(this);
+
+        // Have to invalidate the originals
         orig._image = NULL;
+        orig._currentNode = NULL;
+        orig._rootNode = NULL;
+        orig._chatLogic = NULL;
     }
 
     return *this;
